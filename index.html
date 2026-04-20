@@ -208,52 +208,26 @@
 
     .form-row {
       display: flex;
-      gap: 0;
-      border: 1.5px solid var(--clay-light);
-      border-radius: 100px;
-      background: var(--white);
-      overflow: hidden;
-      transition: border-color 0.2s;
+      justify-content: center;
     }
 
-    .form-row:focus-within {
-      border-color: var(--clay);
-    }
-
-    .form-row input {
-      flex: 1;
-      border: none;
-      outline: none;
-      background: transparent;
-      padding: 16px 24px;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 15px;
-      font-weight: 300;
-      color: var(--ink);
-    }
-
-    .form-row input::placeholder {
-      color: var(--clay-light);
-    }
-
-    .form-row button {
-      border: none;
+    .waitlist-btn {
+      display: inline-block;
       background: var(--clay);
       color: var(--white);
       font-family: 'DM Sans', sans-serif;
-      font-size: 13px;
+      font-size: 15px;
       font-weight: 500;
       letter-spacing: 0.08em;
-      padding: 14px 28px;
+      padding: 18px 48px;
       border-radius: 100px;
       cursor: pointer;
       transition: background 0.2s, transform 0.15s;
-      white-space: nowrap;
-      margin: 4px;
+      text-decoration: none;
     }
 
-    .form-row button:hover { background: #b3764f; }
-    .form-row button:active { transform: scale(0.97); }
+    .waitlist-btn:hover { background: #b3764f; }
+    .waitlist-btn:active { transform: scale(0.97); }
 
     .form-note {
       font-size: 12px;
@@ -394,21 +368,10 @@
     </div>
 
     <div class="form-wrap">
-      <div id="formBlock">
-        <div class="form-row">
-          <input type="email" id="emailInput" placeholder="your@email.com" autocomplete="email" />
-          <button onclick="handleSubmit()">Join the waitlist</button>
-        </div>
-        <p class="form-note">No spam. First to know when Sama launches. 🤍</p>
+      <div class="form-row">
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSdE1DsoE9kq33qBE1JC7OXIdIuTpXskLuv3A_WBPVPczE--nw/viewform" target="_blank" class="waitlist-btn">Join the waitlist</a>
       </div>
-
-      <div class="success-msg" id="successMsg">
-        <div class="success-icon">
-          <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-        </div>
-        <p class="success-text">You're on the list.</p>
-        <p class="success-sub">We'll be in touch when Sama is ready. 🤍</p>
-      </div>
+      <p class="form-note">No spam. First to know when Sama launches. 🤍</p>
     </div>
 
   </main>
@@ -420,25 +383,7 @@
 
 </div>
 
-<script>
-  function handleSubmit() {
-    const email = document.getElementById('emailInput').value.trim();
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      document.getElementById('emailInput').style.borderBottom = '1px solid #C4855A';
-      document.getElementById('emailInput').focus();
-      return;
-    }
-    document.getElementById('formBlock').style.display = 'none';
-    const s = document.getElementById('successMsg');
-    s.classList.add('show');
-    // If you add a form backend (Formspree, Mailchimp etc) fire it here
-  }
 
-  document.getElementById('emailInput').addEventListener('keydown', function(e) {
-    if (e.key === 'Enter') handleSubmit();
-  });
-</script>
 
 </body>
 </html>
