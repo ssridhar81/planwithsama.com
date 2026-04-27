@@ -315,7 +315,114 @@
       to   { opacity: 1; transform: translateY(0); }
     }
 
-    /* ── mobile ── */
+    /* ── purchase pills ── */
+    .purchase-block {
+      width: 100%;
+      max-width: 480px;
+      margin-bottom: 32px;
+      animation: fadeUp 0.8s 0.48s ease both;
+    }
+
+    .purchase-label {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .purchase-row {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .purchase-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--white);
+      border: 1.5px solid var(--clay-light);
+      border-radius: 100px;
+      padding: 14px 28px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 400;
+      color: var(--ink);
+      text-decoration: none;
+      letter-spacing: 0.02em;
+      transition: border-color 0.2s, background 0.2s, transform 0.15s;
+    }
+
+    .purchase-pill:hover {
+      border-color: var(--clay);
+      background: var(--clay-pale);
+      transform: translateY(-1px);
+    }
+
+    .purchase-pill:active { transform: scale(0.97); }
+
+    .purchase-pill .pill-icon {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+      opacity: 0.7;
+    }
+
+    .purchase-pill .pill-sub {
+      font-size: 11px;
+      color: var(--muted);
+      display: block;
+      letter-spacing: 0.06em;
+      margin-top: 1px;
+    }
+
+    .purchase-pill .pill-text {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .purchase-pill.pill-gumroad {
+      background: #FF90E8;
+      border-color: #FF90E8;
+      color: #1a1a1a;
+    }
+    .purchase-pill.pill-gumroad .pill-sub { color: rgba(0,0,0,0.45); }
+    .purchase-pill.pill-gumroad .pill-icon { opacity: 0.7; stroke: #1a1a1a; }
+    .purchase-pill.pill-gumroad:hover { background: #f07fd5; border-color: #f07fd5; transform: translateY(-2px); }
+
+    .purchase-pill.pill-etsy {
+      background: #F1641E;
+      border-color: #F1641E;
+      color: #fff;
+    }
+    .purchase-pill.pill-etsy .pill-sub { color: rgba(255,255,255,0.65); }
+    .purchase-pill.pill-etsy .pill-icon { opacity: 0.85; stroke: #fff; }
+    .purchase-pill.pill-etsy:hover { background: #d9561a; border-color: #d9561a; transform: translateY(-2px); }
+    .or-divider {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      max-width: 320px;
+      margin: 0 auto 28px;
+      animation: fadeUp 0.8s 0.49s ease both;
+    }
+    .or-divider::before, .or-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--clay-light);
+    }
+    .or-divider span {
+      font-size: 11px;
+      color: var(--clay-light);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
     @media (max-width: 600px) {
       nav { padding: 24px 24px; }
       .nav-tag { display: none; }
@@ -332,7 +439,7 @@
 
   <nav>
     <a class="nav-brand" href="/">Sama</a>
-    <span class="nav-tag">Coming soon</span>
+    <span class="nav-tag">Weekly Reset Planner</span>
   </nav>
 
   <main class="hero">
@@ -367,7 +474,31 @@
       <span class="pill">You</span>
     </div>
 
+    <div class="purchase-block">
+      <p class="purchase-label">The Weekly Reset Planner — available now</p>
+      <div class="purchase-row">
+        <a class="purchase-pill pill-gumroad" href="https://planwithsama.gumroad.com/l/jqebv" target="_blank" rel="noopener">
+          <svg class="pill-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+          <span class="pill-text">
+            <span>Get on Gumroad</span>
+            <span class="pill-sub">Instant download</span>
+          </span>
+        </a>
+        <a class="purchase-pill pill-etsy" href="https://www.etsy.com/listing/4487577567/sama-weekly-reset-notion-planner-for-the" target="_blank" rel="noopener">
+          <svg class="pill-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          <span class="pill-text">
+            <span>Get on Etsy</span>
+            <span class="pill-sub">ships digitally</span>
+          </span>
+        </a>
+      </div>
+    </div>
+
+    <div class="or-divider"><span>or</span></div>
+
     <div class="form-wrap">
+      <p style="font-family:'DM Sans',sans-serif; font-size:17px; font-weight:400; color:var(--ink); text-align:center; margin-bottom:6px; letter-spacing:0.02em;">Join the waitlist for the Sama AI web app</p>
+      <p style="font-size:13px; font-weight:300; color:var(--muted); text-align:center; letter-spacing:0.04em; margin-bottom:24px; line-height:1.6;">Be first. Get founding member pricing. Shape what we build.</p>
       <div class="form-row">
         <a href="https://docs.google.com/forms/d/e/1FAIpQLSdE1DsoE9kq33qBE1JC7OXIdIuTpXskLuv3A_WBPVPczE--nw/viewform" target="_blank" class="waitlist-btn">Join the waitlist</a>
       </div>
