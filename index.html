@@ -403,6 +403,31 @@
     .purchase-pill.pill-etsy .pill-sub { color: rgba(255,255,255,0.65); }
     .purchase-pill.pill-etsy .pill-icon { opacity: 0.85; stroke: #fff; }
     .purchase-pill.pill-etsy:hover { background: #d9561a; border-color: #d9561a; transform: translateY(-2px); }
+
+    .purchase-pill.pill-waitlist {
+      background: var(--clay);
+      border-color: var(--clay);
+      color: #fff;
+    }
+    .purchase-pill.pill-waitlist .pill-sub { color: rgba(255,255,255,0.65); }
+    .purchase-pill.pill-waitlist .pill-icon { opacity: 0.85; stroke: #fff; }
+    .purchase-pill.pill-waitlist:hover { background: #b3764f; border-color: #b3764f; transform: translateY(-2px); }
+
+    .cta-stack {
+      width: 100%;
+      max-width: 720px;
+      margin: 8px 0 36px;
+      animation: fadeUp 0.8s 0.35s ease both;
+    }
+
+    .cta-caption {
+      font-size: 12px;
+      color: var(--muted);
+      text-align: center;
+      letter-spacing: 0.06em;
+      margin-top: 18px;
+      font-weight: 300;
+    }
     .or-divider {
       display: flex;
       align-items: center;
@@ -456,6 +481,34 @@
       AI-assisted planning for the life you're actually living.
     </p>
 
+    <!-- ── CTAs (moved to top) ── -->
+    <div class="cta-stack">
+      <div class="purchase-row">
+        <a class="purchase-pill pill-gumroad" href="https://planwithsama.gumroad.com/l/jqebv" target="_blank" rel="noopener">
+          <svg class="pill-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+          <span class="pill-text">
+            <span>Get on Gumroad</span>
+            <span class="pill-sub">Instant download</span>
+          </span>
+        </a>
+        <a class="purchase-pill pill-etsy" href="https://www.etsy.com/listing/4487577567/sama-weekly-reset-notion-planner-for-the" target="_blank" rel="noopener">
+          <svg class="pill-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          <span class="pill-text">
+            <span>Get on Etsy</span>
+            <span class="pill-sub">ships digitally</span>
+          </span>
+        </a>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSdE1DsoE9kq33qBE1JC7OXIdIuTpXskLuv3A_WBPVPczE--nw/viewform" target="_blank" rel="noopener" class="purchase-pill pill-waitlist">
+          <svg class="pill-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2l-7 20-4-9-9-4z"/></svg>
+          <span class="pill-text">
+            <span>Join the waitlist</span>
+            <span class="pill-sub">Sama AI web app</span>
+          </span>
+        </a>
+      </div>
+      <p class="cta-caption">Get the Weekly Reset Planner now — or be first when the AI app launches.</p>
+    </div>
+
     <div class="hero-divider"></div>
 
     <p class="hero-body">
@@ -472,37 +525,6 @@
       <span class="pill">Family</span>
       <span class="pill">Relationships</span>
       <span class="pill">You</span>
-    </div>
-
-    <div class="purchase-block">
-      <p class="purchase-label">The Weekly Reset Planner — available now</p>
-      <div class="purchase-row">
-        <a class="purchase-pill pill-gumroad" href="https://planwithsama.gumroad.com/l/jqebv" target="_blank" rel="noopener">
-          <svg class="pill-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
-          <span class="pill-text">
-            <span>Get on Gumroad</span>
-            <span class="pill-sub">Instant download</span>
-          </span>
-        </a>
-        <a class="purchase-pill pill-etsy" href="https://www.etsy.com/listing/4487577567/sama-weekly-reset-notion-planner-for-the" target="_blank" rel="noopener">
-          <svg class="pill-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-          <span class="pill-text">
-            <span>Get on Etsy</span>
-            <span class="pill-sub">ships digitally</span>
-          </span>
-        </a>
-      </div>
-    </div>
-
-    <div class="or-divider"><span>or</span></div>
-
-    <div class="form-wrap">
-      <p style="font-family:'DM Sans',sans-serif; font-size:17px; font-weight:400; color:var(--ink); text-align:center; margin-bottom:6px; letter-spacing:0.02em;">Join the waitlist for the Sama AI web app</p>
-      <p style="font-size:13px; font-weight:300; color:var(--muted); text-align:center; letter-spacing:0.04em; margin-bottom:24px; line-height:1.6;">Be first. Get founding member pricing. Shape what we build.</p>
-      <div class="form-row">
-        <a href="https://docs.google.com/forms/d/e/1FAIpQLSdE1DsoE9kq33qBE1JC7OXIdIuTpXskLuv3A_WBPVPczE--nw/viewform" target="_blank" class="waitlist-btn">Join the waitlist</a>
-      </div>
-      <p class="form-note">No spam. First to know when Sama launches. 🤍</p>
     </div>
 
   </main>
