@@ -123,11 +123,18 @@ THREADS:
 - Format: 7 short text posts, one per day Mon–Sun
 - Each post: 3–6 lines maximum, punchy, conversational
 - Always end with a question or statement that invites replies
-- No images — pure text
+- Default: pure text — no image needed
 - Monday: Hook related to the week's theme
 - Tuesday–Saturday: Different angles on the theme
 - Sunday: Reflection or reset prompt
 - Tone: More personal than Instagram, like thinking out loud
+- Visual tag: If a Threads post would benefit from an accompanying image or graphic, add `[visual]` on its own line at the top of that post. The scheduling agent will route it to the visual tracker instead of auto-scheduling. Example:
+  ```
+  ### Wednesday
+  [visual]
+  This week's planning spread — five zones, one page.
+  Which zone gets ignored most in your week?
+  ```
 
 PINTEREST:
 - Format: 7 pins — one per Monday carousel slide

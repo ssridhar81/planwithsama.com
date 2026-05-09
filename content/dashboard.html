@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sama Content Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            sama: { 50:'#F5F3FA', 100:'#EDE9F6', 200:'#DDD6F0', 300:'#C4B5E8', 400:'#A78BDA', 500:'#8B5CF6', 600:'#7C3AED', 700:'#6D28D9' }
+          },
+          fontFamily: {
+            sans: ['Inter','sans-serif'],
+            serif: ['Playfair Display','serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .status-sent      { background:#D1FAE5; color:#065F46; }
+    .status-scheduled { background:#DBEAFE; color:#1E40AF; }
+    .status-missed    { background:#FEE2E2; color:#991B1B; }
+    .status-pending   { background:#FEF3C7; color:#92400E; }
+    .status-manual    { background:#F3F4F6; color:#374151; }
+    .ring-track { fill:none; stroke:#EDE9F6; stroke-width:8; }
+    .ring-fill  { fill:none; stroke:#7C3AED; stroke-width:8; stroke-linecap:round; transition:stroke-dashoffset .6s ease; }
+  </style>
+</head>
+<body class="bg-sama-50 min-h-screen font-sans text-gray-800">
+
+  <!-- Top bar -->
+  <header class="bg-white border-b border-sama-100 px-8 py-4 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <span class="font-serif text-xl font-semibold text-sama-700">Sama</span>
+      <span class="text-gray-300">|</span>
+      <span class="text-sm font-medium text-gray-500 tracking-wide uppercase">Content Dashboard</span>
+    </div>
+    <span class="text-xs text-gray-400">Refreshed: <span id="refreshed">2026-05-08 · 11:52pm ET</span></span>
+  </header>
+
+  <main class="max-w-5xl mx-auto px-6 py-8 space-y-8">
+
+    <!-- Week header -->
+    <div class="bg-white rounded-2xl border border-sama-100 px-8 py-6">
+      <div class="flex items-start justify-between flex-wrap gap-4">
+        <div>
+          <p class="text-xs font-semibold tracking-widest text-sama-500 uppercase mb-1">Week of May 4 – 10, 2026</p>
+          <h1 class="font-serif text-2xl text-gray-900 leading-snug">AI transformed your work.<br>Your home is still waiting.</h1>
+        </div>
+        <span class="inline-flex items-center gap-1.5 bg-sama-100 text-sama-700 text-xs font-semibold px-3 py-1.5 rounded-full">
+          Pillar 1 — The Problem
+        </span>
+      </div>
+    </div>
+
+    <!-- Stats row -->
+    <div class="grid grid-cols-3 gap-4">
+
+      <!-- Buffer queue -->
+      <div class="bg-white rounded-2xl border border-sama-100 px-6 py-5 flex items-center gap-5">
+        <div class="relative w-16 h-16 flex-shrink-0">
+          <svg viewBox="0 0 48 48" class="w-full h-full -rotate-90">
+            <circle class="ring-track" cx="24" cy="24" r="20"/>
+            <!-- 3/10 = 30% of circumference (125.66) = 37.7 -->
+            <circle class="ring-fill" cx="24" cy="24" r="20"
+              stroke-dasharray="125.66"
+              stroke-dashoffset="87.96"/>
+          </svg>
+          <span class="absolute inset-0 flex items-center justify-center text-sm font-bold text-sama-700">3/10</span>
+        </div>
+        <div>
+          <p class="text-xs text-gray-400 font-medium uppercase tracking-wide">Buffer queue</p>
+          <p class="text-2xl font-bold text-gray-900">3</p>
+          <p class="text-xs text-gray-400">7 slots free</p>
+        </div>
+      </div>
+
+      <!-- Threads sent -->
+      <div class="bg-white rounded-2xl border border-sama-100 px-6 py-5">
+        <p class="text-xs text-gray-400 font-medium uppercase tracking-wide mb-2">Threads</p>
+        <p class="text-2xl font-bold text-gray-900">0 <span class="text-base font-normal text-gray-400">/ 7 sent</span></p>
+        <div class="mt-2 flex gap-1">
+          <!-- Mon–Thu missed (red), Fri–Sun scheduled (blue) -->
+          <div class="h-1.5 flex-1 rounded-full bg-red-300"></div>
+          <div class="h-1.5 flex-1 rounded-full bg-red-300"></div>
+          <div class="h-1.5 flex-1 rounded-full bg-red-300"></div>
+          <div class="h-1.5 flex-1 rounded-full bg-red-300"></div>
+          <div class="h-1.5 flex-1 rounded-full bg-blue-300"></div>
+          <div class="h-1.5 flex-1 rounded-full bg-blue-300"></div>
+          <div class="h-1.5 flex-1 rounded-full bg-blue-300"></div>
+        </div>
+      </div>
+
+      <!-- Pending actions -->
+      <div class="bg-white rounded-2xl border border-sama-100 px-6 py-5">
+        <p class="text-xs text-gray-400 font-medium uppercase tracking-wide mb-2">Pending actions</p>
+        <p class="text-2xl font-bold text-gray-900">11</p>
+        <p class="text-xs text-gray-400">5 visuals · 2 LinkedIn · 4 IG uploads</p>
+      </div>
+
+    </div>
+
+    <!-- Threads section -->
+    <section>
+      <h2 class="text-xs font-semibold tracking-widest text-gray-400 uppercase mb-3">Threads — 7 daily posts</h2>
+      <div class="bg-white rounded-2xl border border-sama-100 overflow-hidden">
+        <div class="grid grid-cols-7 divide-x divide-sama-100">
+
+          <!-- Mon -->
+          <div class="px-3 py-4 text-center">
+            <p class="text-xs font-semibold text-gray-400 mb-2">Mon</p>
+            <p class="text-xs text-gray-500 mb-3">May 4</p>
+            <span class="status-missed text-xs font-semibold px-2 py-1 rounded-full block">Missed</span>
+          </div>
+          <!-- Tue -->
+          <div class="px-3 py-4 text-center">
+            <p class="text-xs font-semibold text-gray-400 mb-2">Tue</p>
+            <p class="text-xs text-gray-500 mb-3">May 5</p>
+            <span class="status-missed text-xs font-semibold px-2 py-1 rounded-full block">Missed</span>
+          </div>
+          <!-- Wed -->
+          <div class="px-3 py-4 text-center">
+            <p class="text-xs font-semibold text-gray-400 mb-2">Wed</p>
+            <p class="text-xs text-gray-500 mb-3">May 6</p>
+            <span class="status-missed text-xs font-semibold px-2 py-1 rounded-full block">Missed</span>
+          </div>
+          <!-- Thu -->
+          <div class="px-3 py-4 text-center">
+            <p class="text-xs font-semibold text-gray-400 mb-2">Thu</p>
+            <p class="text-xs text-gray-500 mb-3">May 7</p>
+            <span class="status-missed text-xs font-semibold px-2 py-1 rounded-full block">Missed</span>
+          </div>
+          <!-- Fri -->
+          <div class="px-3 py-4 text-center bg-blue-50/40">
+            <p class="text-xs font-semibold text-gray-400 mb-2">Fri</p>
+            <p class="text-xs text-gray-500 mb-3">May 8</p>
+            <span class="status-scheduled text-xs font-semibold px-2 py-1 rounded-full block">7:30pm</span>
+          </div>
+          <!-- Sat -->
+          <div class="px-3 py-4 text-center bg-blue-50/40">
+            <p class="text-xs font-semibold text-gray-400 mb-2">Sat</p>
+            <p class="text-xs text-gray-500 mb-3">May 9</p>
+            <span class="status-scheduled text-xs font-semibold px-2 py-1 rounded-full block">7:30pm</span>
+          </div>
+          <!-- Sun -->
+          <div class="px-3 py-4 text-center bg-blue-50/40">
+            <p class="text-xs font-semibold text-gray-400 mb-2">Sun</p>
+            <p class="text-xs text-gray-500 mb-3">May 10</p>
+            <span class="status-scheduled text-xs font-semibold px-2 py-1 rounded-full block">7:30pm</span>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Visual queue -->
+    <section>
+      <h2 class="text-xs font-semibold tracking-widest text-gray-400 uppercase mb-3">Visual queue — Instagram &amp; Pinterest</h2>
+      <div class="grid grid-cols-2 gap-4">
+
+        <!-- IG Post 1 -->
+        <div class="bg-white rounded-2xl border border-sama-100 p-5">
+          <div class="flex items-start justify-between mb-3">
+            <div>
+              <p class="text-xs font-semibold text-sama-500 uppercase tracking-wide mb-0.5">Instagram · Monday May 4</p>
+              <p class="font-semibold text-gray-900">Monday Carousel</p>
+              <p class="text-xs text-gray-400">7 slides · 7:30pm ET</p>
+            </div>
+            <span class="status-missed text-xs font-semibold px-2.5 py-1 rounded-full flex-shrink-0">Past due</span>
+          </div>
+          <div class="flex items-center gap-2 mt-4">
+            <span class="text-xs bg-gray-100 text-gray-500 px-2 py-1 rounded-md">Claude Design</span>
+            <span class="text-xs text-gray-400">→ Export PNGs → Buffer</span>
+          </div>
+        </div>
+
+        <!-- IG Post 2 -->
+        <div class="bg-white rounded-2xl border border-sama-100 p-5">
+          <div class="flex items-start justify-between mb-3">
+            <div>
+              <p class="text-xs font-semibold text-sama-500 uppercase tracking-wide mb-0.5">Instagram · Wednesday May 6</p>
+              <p class="font-semibold text-gray-900">Wednesday Reel</p>
+              <p class="text-xs text-gray-400">20–30s video · 7:30pm ET</p>
+            </div>
+            <span class="status-missed text-xs font-semibold px-2.5 py-1 rounded-full flex-shrink-0">Past due</span>
+          </div>
+          <div class="flex items-center gap-2 mt-4">
+            <span class="text-xs bg-gray-100 text-gray-500 px-2 py-1 rounded-md">Seedance</span>
+            <span class="text-xs text-gray-400">→ CapCut → Buffer</span>
+          </div>
+        </div>
+
+        <!-- IG Post 3 -->
+        <div class="bg-white rounded-2xl border border-amber-100 p-5">
+          <div class="flex items-start justify-between mb-3">
+            <div>
+              <p class="text-xs font-semibold text-sama-500 uppercase tracking-wide mb-0.5">Instagram · Friday May 8</p>
+              <p class="font-semibold text-gray-900">Friday Carousel</p>
+              <p class="text-xs text-gray-400">7 slides · 7:30pm ET</p>
+            </div>
+            <span class="status-pending text-xs font-semibold px-2.5 py-1 rounded-full flex-shrink-0">Today</span>
+          </div>
+          <div class="flex items-center gap-2 mt-4">
+            <span class="text-xs bg-gray-100 text-gray-500 px-2 py-1 rounded-md">Claude Design</span>
+            <span class="text-xs text-gray-400">→ Export PNGs → Buffer</span>
+          </div>
+        </div>
+
+        <!-- IG Post 4 -->
+        <div class="bg-white rounded-2xl border border-sama-100 p-5">
+          <div class="flex items-start justify-between mb-3">
+            <div>
+              <p class="text-xs font-semibold text-sama-500 uppercase tracking-wide mb-0.5">Instagram · Sunday May 10</p>
+              <p class="font-semibold text-gray-900">Sunday Graphic</p>
+              <p class="text-xs text-gray-400">Single image · 7:30pm ET</p>
+            </div>
+            <span class="status-pending text-xs font-semibold px-2.5 py-1 rounded-full flex-shrink-0">Pending</span>
+          </div>
+          <div class="flex items-center gap-2 mt-4">
+            <span class="text-xs bg-gray-100 text-gray-500 px-2 py-1 rounded-md">Claude Design</span>
+            <span class="text-xs text-gray-400">→ Export PNG → Buffer</span>
+          </div>
+        </div>
+
+        <!-- Pinterest -->
+        <div class="bg-white rounded-2xl border border-sama-100 p-5 col-span-2">
+          <div class="flex items-start justify-between mb-3">
+            <div>
+              <p class="text-xs font-semibold text-sama-500 uppercase tracking-wide mb-0.5">Pinterest</p>
+              <p class="font-semibold text-gray-900">7 Pins — from Monday Carousel</p>
+              <p class="text-xs text-gray-400">Export 7 carousel PNGs → upload to Pinterest with descriptions from content file</p>
+            </div>
+            <span class="status-pending text-xs font-semibold px-2.5 py-1 rounded-full flex-shrink-0">Waiting for carousel</span>
+          </div>
+          <div class="grid grid-cols-7 gap-2 mt-4">
+            <div class="text-center"><div class="h-8 rounded-lg bg-sama-100 flex items-center justify-center text-xs text-sama-600 font-semibold">P1</div></div>
+            <div class="text-center"><div class="h-8 rounded-lg bg-sama-100 flex items-center justify-center text-xs text-sama-600 font-semibold">P2</div></div>
+            <div class="text-center"><div class="h-8 rounded-lg bg-sama-100 flex items-center justify-center text-xs text-sama-600 font-semibold">P3</div></div>
+            <div class="text-center"><div class="h-8 rounded-lg bg-sama-100 flex items-center justify-center text-xs text-sama-600 font-semibold">P4</div></div>
+            <div class="text-center"><div class="h-8 rounded-lg bg-sama-100 flex items-center justify-center text-xs text-sama-600 font-semibold">P5</div></div>
+            <div class="text-center"><div class="h-8 rounded-lg bg-sama-100 flex items-center justify-center text-xs text-sama-600 font-semibold">P6</div></div>
+            <div class="text-center"><div class="h-8 rounded-lg bg-sama-100 flex items-center justify-center text-xs text-sama-600 font-semibold">P7</div></div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- LinkedIn -->
+    <section>
+      <h2 class="text-xs font-semibold tracking-widest text-gray-400 uppercase mb-3">LinkedIn — manual actions</h2>
+      <div class="bg-white rounded-2xl border border-sama-100 divide-y divide-sama-50">
+
+        <div class="px-6 py-4 flex items-center justify-between">
+          <div>
+            <p class="font-medium text-gray-900 text-sm">Post 1 — AI Agent Conference NYC</p>
+            <p class="text-xs text-gray-400 mt-0.5">Monday May 4 · 9:00am ET · Paste directly into LinkedIn</p>
+          </div>
+          <span class="status-missed text-xs font-semibold px-2.5 py-1 rounded-full">Past due</span>
+        </div>
+
+        <div class="px-6 py-4 flex items-center justify-between">
+          <div>
+            <p class="font-medium text-gray-900 text-sm">Post 2 — Verification bottleneck in agentic AI</p>
+            <p class="text-xs text-gray-400 mt-0.5">Thursday May 7 · 9:00am ET · Paste directly into LinkedIn</p>
+          </div>
+          <span class="status-missed text-xs font-semibold px-2.5 py-1 rounded-full">Past due</span>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Legend -->
+    <div class="flex items-center gap-6 text-xs text-gray-400 pb-4">
+      <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-green-400 inline-block"></span>Sent</span>
+      <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-blue-400 inline-block"></span>Scheduled</span>
+      <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-red-400 inline-block"></span>Missed</span>
+      <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-amber-400 inline-block"></span>Pending</span>
+      <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-gray-300 inline-block"></span>Manual</span>
+    </div>
+
+  </main>
+
+</body>
+</html>
