@@ -1,5 +1,5 @@
 # Sama Schedule Tracker — Week of May 4, 2026
-Generated: 2026-05-08 (Thursday, 11:52pm ET)
+Generated: 2026-05-10 (Sunday, 9:11am ET)
 Pillar: The Problem | Theme: AI transformed your work. Your home is still waiting.
 
 ---
@@ -12,8 +12,8 @@ Pillar: The Problem | Theme: AI transformed your work. Your home is still waitin
 | Tuesday | May 5 | 7:30pm | — | MISSED — past when agent ran |
 | Wednesday | May 6 | 7:30pm | — | MISSED — past when agent ran |
 | Thursday | May 7 | 7:30pm | — | MISSED — past when agent ran |
-| Friday | May 8 | 7:30pm | `69fd5e1b94c445cd61cfba97` | Scheduled ✅ |
-| Saturday | May 9 | 7:30pm | `69fd5e1daca391aca66e7852` | Scheduled ✅ |
+| Friday | May 8 | 7:30pm | `69fd5e1b94c445cd61cfba97` | Sent ✅ |
+| Saturday | May 9 | 7:30pm | `69fd5e1daca391aca66e7852` | Sent ✅ |
 | Sunday | May 10 | 7:30pm | `69fd5e1eaca391aca66e787a` | Scheduled ✅ |
 
 *Note: Agent was built mid-week (Thu May 7). Mon–Thu posts missed this cycle. From next week, run on Sunday to capture all 7.*
@@ -50,8 +50,8 @@ Pillar: The Problem | Theme: AI transformed your work. Your home is still waitin
 ## BUFFER QUEUE STATUS
 
 - Posts scheduled this run: 3 (Fri / Sat / Sun Threads)
-- Total scheduled posts in queue now: 3 / 10
-- Remaining queue capacity: 7
+- Total scheduled posts in queue now: 1 / 10 (Fri + Sat sent, Sun still pending)
+- Remaining queue capacity: 9
 
 ---
 
