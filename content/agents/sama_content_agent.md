@@ -155,15 +155,16 @@ Selection rules:
 - An "idea" can be anything: a hook line, a paragraph, a transcribed voice memo, a link with a one-line note, a half-formed thought. Work with whatever is there. Develop it into a full 200–300 word post in the voice specified for that slot.
 - Never use an idea whose status is `used` — those are already shipped.
 - If, and only if, no `unused` ideas exist in the relevant file, generate your own idea from scratch (keeping brand and voice in mind) and explicitly note this in the NOTES section of the weekly file.
+- If the idea has an `Image:` line, carry the filename and note through to the weekly file exactly as written. Do not alter or omit it.
 
 After using an idea, you MUST update its file:
 - Change `Status: unused` to `Status: used YYYY-MM-DD (Week of YYYY-MM-DD)`
 - Add a one-line note immediately under the status: `Used as: [one-line summary of the angle the post took]`
 - Do NOT delete the idea or move it. It stays in place as an audit trail.
 
-In the final weekly content file, both LinkedIn posts must include a `**Idea source:**` line directly under the `### Post` heading recording either:
-- `**Idea source:** content/ideas/linkedin-monday.md — "[idea title]"` (when an idea file was used)
-- `**Idea source:** Agent-generated (no unused ideas in inbox)` (fallback)
+In the final weekly content file, both LinkedIn posts must include these lines directly under the `### Post` heading:
+- `**Idea source:** content/ideas/linkedin-monday.md — "[idea title]"` (or the thursday equivalent, or "Agent-generated (no unused ideas in inbox)")
+- `**Image:** assets/linkedin/filename.jpg — [note]` if an Image line was present in the idea — OR omit this line entirely if no image was referenced
 
 LINKEDIN — POST 1 (MONDAY):
 - Format: One thought leadership post, 200–300 words
@@ -403,6 +404,7 @@ SUNDAY REFLECTION · @planwithsama
 
 ### Post
 **Idea source:** [content/ideas/linkedin-monday.md — "[idea title]"  OR  Agent-generated (no unused ideas in inbox)]
+**Image:** [assets/linkedin/filename.jpg — note on what image shows  OR  omit this line if no image was referenced]
 
 [200–300 words, AI transformation thought leadership, no Sama mention]
 
@@ -415,6 +417,7 @@ SUNDAY REFLECTION · @planwithsama
 
 ### Post
 **Idea source:** [content/ideas/linkedin-thursday.md — "[idea title]"  OR  Agent-generated (no unused ideas in inbox)]
+**Image:** [assets/linkedin/filename.jpg — note on what image shows  OR  omit this line if no image was referenced]
 
 [200–300 words, human side of AI — cognitive load and the gap, no Sama mention]
 

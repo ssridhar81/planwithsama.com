@@ -157,24 +157,28 @@ Dot nav: all 7 filled/visible, last dot filled
 
 ### Seedance Prompt
 
-```
-Generate a 25-second ambient background video. 9:16 vertical format (1080x1920px).
+> **Note on duration:** Seedance generates clips of approximately 5–8 seconds. Generate one clip using the prompt below, then loop it in CapCut to fill the full 31-second reel. Because the scene is essentially static with only ambient movement, it loops cleanly — this is intentional.
 
-Scene: A warm, lived-in living room at dusk. Late evening light — approximately 8pm. The room is softly lit by a single floor or table lamp, casting a golden-amber pool of light. The scene is still, slightly cluttered in a human way: a half-finished cup of tea on a coffee table, a phone face-up on a cushion nearby, keys and unopened mail in the background, a child's drawing and a planner with a pen resting on the cover visible on a side surface. No people. No animals. No movement except: very slow, almost imperceptible dust motes drifting through the lamp light, and a gradual dimming through the window as the last of the daylight fades.
+```
+Generate a short ambient background video clip, approximately 5–8 seconds. 9:16 vertical format (1080x1920px). Designed to loop seamlessly.
+
+Scene: A warm, lived-in living room at dusk. Late evening light — approximately 8pm. The room is softly lit by a single floor or table lamp, casting a golden-amber pool of light. The scene is still, slightly cluttered in a human way: a half-finished cup of tea on a coffee table, a phone face-up on a cushion nearby, keys and unopened mail in the background, a child's drawing and a planner with a pen resting on the cover visible on a side surface. No people. No animals. No movement except: very slow, almost imperceptible dust motes drifting through the lamp light.
 
 Mood: Quiet exhaustion. Real life. The beautiful weight of an ordinary evening. Not sad — just honest. Like the moment before the second shift truly begins.
 
 Colour palette: Warm amber and honey tones from lamp glow. Deep, slightly cool shadows. The window shows a navy-indigo dusk sky. No harsh whites. No cool office tones. The room should feel lived-in, not staged.
 
-Camera: Static or near-static. Very slow push in toward the coffee table scene — no more than 5% of travel over the full 25 seconds. Cinematic depth of field. Slight film grain texture welcome.
+Camera: Fully static. No camera movement. Fixed frame on the coffee table scene. Cinematic depth of field. Slight film grain texture welcome. Static framing is essential for clean seamless looping.
 
-Lighting: Single warm light source (lamp). Practical interior lighting only. The golden-amber cast over everything. Window providing ambient indigo-dusk contrast.
+Lighting: Single warm light source (lamp). Practical interior lighting only. The golden-amber cast over everything. Window providing ambient indigo-dusk contrast. Lighting must be consistent from first to last frame for looping.
 
-Do not include: people, faces, hands, text, logos, pets, TV screens, or any motion other than the ambient drift and window light change described above.
+Do not include: people, faces, hands, text, logos, pets, TV screens, or any camera motion.
 
-Duration: 25 seconds, loopable preferred.
+Duration: 5–8 seconds, optimised for seamless loop.
 Style reference: The visual language of a Nils Frahm or Ólafur Arnalds music video — melancholic, intimate, real.
 ```
+
+**CapCut looping instruction:** Import the Seedance clip → right-click → Loop (or duplicate the clip 4–5 times end-to-end) until your timeline reaches 31 seconds. The static framing makes the loop invisible to viewers.
 
 ### CapCut Text Overlay Spec
 
