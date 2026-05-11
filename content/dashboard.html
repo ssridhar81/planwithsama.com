@@ -40,7 +40,7 @@
       <span class="text-gray-300">|</span>
       <span class="text-sm font-medium text-gray-500 tracking-wide uppercase">Content Dashboard</span>
     </div>
-    <span class="text-xs text-gray-400">Refreshed: <span id="refreshed">2026-05-10 · 6:21pm ET</span></span>
+    <span class="text-xs text-gray-400">Refreshed: <span id="refreshed">2026-05-11 · 12:05AM ET</span></span>
   </header>
 
   <main class="max-w-5xl mx-auto px-6 py-8 space-y-8">
@@ -66,24 +66,24 @@
         <div class="relative w-16 h-16 flex-shrink-0">
           <svg viewBox="0 0 48 48" class="w-full h-full -rotate-90">
             <circle class="ring-track" cx="24" cy="24" r="20"/>
-            <!-- 1/10 = 10% of circumference (125.66) = 12.57 -->
+            <!-- 0/10 = 0% of circumference -->
             <circle class="ring-fill" cx="24" cy="24" r="20"
               stroke-dasharray="125.66"
-              stroke-dashoffset="113.09"/>
+              stroke-dashoffset="125.66"/>
           </svg>
-          <span class="absolute inset-0 flex items-center justify-center text-sm font-bold text-sama-700">1/10</span>
+          <span class="absolute inset-0 flex items-center justify-center text-sm font-bold text-sama-700">0/10</span>
         </div>
         <div>
           <p class="text-xs text-gray-400 font-medium uppercase tracking-wide">Buffer queue</p>
-          <p class="text-2xl font-bold text-gray-900">1</p>
-          <p class="text-xs text-gray-400">9 slots free</p>
+          <p class="text-2xl font-bold text-gray-900">0</p>
+          <p class="text-xs text-gray-400">10 slots free</p>
         </div>
       </div>
 
       <!-- Threads sent -->
       <div class="bg-white rounded-2xl border border-sama-100 px-6 py-5">
         <p class="text-xs text-gray-400 font-medium uppercase tracking-wide mb-2">Threads</p>
-        <p class="text-2xl font-bold text-gray-900">2 <span class="text-base font-normal text-gray-400">/ 7 sent</span></p>
+        <p class="text-2xl font-bold text-gray-900">3 <span class="text-base font-normal text-gray-400">/ 7 sent</span></p>
         <div class="mt-2 flex gap-1">
           <!-- Mon–Thu missed (red), Fri–Sat sent (green), Sun scheduled (blue) -->
           <div class="h-1.5 flex-1 rounded-full bg-red-300"></div>
@@ -92,7 +92,7 @@
           <div class="h-1.5 flex-1 rounded-full bg-red-300"></div>
           <div class="h-1.5 flex-1 rounded-full bg-green-400"></div>
           <div class="h-1.5 flex-1 rounded-full bg-green-400"></div>
-          <div class="h-1.5 flex-1 rounded-full bg-blue-300"></div>
+          <div class="h-1.5 flex-1 rounded-full bg-green-400"></div>
         </div>
       </div>
 
@@ -148,10 +148,10 @@
             <span class="status-sent text-xs font-semibold px-2 py-1 rounded-full block">Sent</span>
           </div>
           <!-- Sun -->
-          <div class="px-3 py-4 text-center bg-blue-50/40">
+          <div class="px-3 py-4 text-center bg-green-50/40">
             <p class="text-xs font-semibold text-gray-400 mb-2">Sun</p>
             <p class="text-xs text-gray-500 mb-3">May 10</p>
-            <span class="status-scheduled text-xs font-semibold px-2 py-1 rounded-full block">7:30pm</span>
+            <span class="status-sent text-xs font-semibold px-2 py-1 rounded-full block">Sent</span>
           </div>
 
         </div>
@@ -219,7 +219,7 @@
               <p class="font-semibold text-gray-900">Sunday Graphic</p>
               <p class="text-xs text-gray-400">Single image · 7:30pm ET</p>
             </div>
-            <span class="status-pending text-xs font-semibold px-2.5 py-1 rounded-full flex-shrink-0">Today</span>
+            <span class="status-missed text-xs font-semibold px-2.5 py-1 rounded-full flex-shrink-0">Past due</span>
           </div>
           <div class="flex items-center gap-2 mt-4">
             <span class="text-xs bg-gray-100 text-gray-500 px-2 py-1 rounded-md">Claude Design</span>
