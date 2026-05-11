@@ -81,17 +81,29 @@ def append_log(data: list[dict]):
 
 
 def update_follow(handle: str, followed: str):
-    """Update the Followed Me? column for a handle in Comment Log."""
+    """Update Followed Me? in Comment Log and Followed? in Today's Picks for a handle."""
     wb = load_wb()
-    ws = wb["Comment Log"]
-    updated = 0
-    for row in ws.iter_rows(min_row=2):
-        if str(row[1].value or "").lower() == handle.lower().lstrip("@"):
+    clean_handle = handle.lower().lstrip("@")
+
+    # Update Comment Log — col 9 (Followed Me?)
+    ws_log = wb["Comment Log"]
+    log_updated = 0
+    for row in ws_log.iter_rows(min_row=2):
+        if str(row[1].value or "").lower().lstrip("@") == clean_handle:
             if not row[8].value or row[8].value == "":
                 row[8].value = followed
-                updated += 1
+                log_updated += 1
+
+    # Update Today's Picks — col 12 (Followed?) if handle is still in today's tab
+    ws_picks = wb["Today's Picks"]
+    picks_updated = 0
+    for row in ws_picks.iter_rows(min_row=2, max_row=6):
+        if str(row[2].value or "").lower().lstrip("@") == clean_handle:
+            row[11].value = followed  # col 12 — Followed?
+            picks_updated += 1
+
     save_wb(wb)
-    print(f"Updated followed status for {handle}: {updated} rows.")
+    print(f"Updated follow status for {handle}: {log_updated} Comment Log rows, {picks_updated} Today's Picks rows.")
 
 
 if __name__ == "__main__":
