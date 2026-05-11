@@ -41,7 +41,8 @@ Agentic Ai is trial and error there is not playbook yet
 
 ---
 ## Scaling Agentic AI Across the Enterprise
-Status: unused
+Status: used 2026-05-11 (Week of 2026-05-11)
+Used as: The economics of agentic AI at scale — high token costs make open source the inference play; but the deeper argument is that "AI-native" is a business model decision, not a technology one, requiring CEO-level conviction and governance rigour.
 Added: 2026-05-09
 
 Cost operating agent  models -   high token use. open source models are the play

@@ -46,7 +46,8 @@ Bits AI SRE - RCA of problems
 
 ---
 ## Building Recurring, Governed And Embedded Enterprise Workflows by CrewAI
-Status: unused
+Status: used 2026-05-11 (Week of 2026-05-11)
+Used as: Agentic adoption is a human systems problem, not an engineering one — the companies winning build the flywheel from the other direction, leading with cognitive load reduction so adoption follows from relief, not obligation.
 Added: 2026-05-09
 
 I think we have a lot to talk about here today. The other thing is that people are going to be using agents to use your thing, whatever it is, the product of each or any organization you get. Whatever you do needs to be thrown off the flywheel. They're more likely to use it better if you use it, not necessarily in a better form, then it's got a better hold. There's not really any component about flying movement, and that's going to send us into a whole lot deeper into this time.
