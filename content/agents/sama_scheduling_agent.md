@@ -7,39 +7,29 @@
 
 Given a weekly content file (`content/weeks/week-YYYY-MM-DD.md`), this agent:
 
-1. **Auto-schedules all text-only posts** to Buffer immediately
-2. **Generates a schedule tracker** listing what was queued, what needs visual production, and what's a manual action
+1. **Queries Buffer** to see what's already been posted this week (via any session)
+2. **Auto-schedules** all text-only Threads posts that haven't been posted yet
+3. **Generates a tracker file** with accurate statuses — scheduled, sent, missed, visual queue, manual actions
 
-Run this every Sunday after the content agent generates the week's file.
-
----
-
-## HOW TO USE
-
-1. Open a new Claude Code session in the planwithsama project
-2. Paste the SYSTEM PROMPT below
-3. Then paste the USER PROMPT with the correct week file path
-4. The agent will call Buffer MCP and create the tracker file automatically
+Run every Sunday evening after the content agent produces the week file.
 
 ---
 
-## CLASSIFICATION RULES
+## CLASSIFICATION
 
-| Platform / Section | Visual Required? | Buffer Channel | Action |
+| Section | Visual? | Buffer channel | Action |
 |---|---|---|---|
-| THREADS — post without `[visual]` tag | No | Threads (`planwithsama`) | **AUTO-SCHEDULE** |
-| THREADS — post with `[visual]` tag | Yes | Threads (`planwithsama`) | Visual tracker |
-| INSTAGRAM — POST 1 (Monday Carousel) | Yes — 7-slide carousel | Instagram | Visual tracker |
-| INSTAGRAM — POST 2 (Wednesday Reel) | Yes — video | Instagram | Visual tracker |
-| INSTAGRAM — POST 3 (Friday Carousel) | Yes — 7-slide carousel | Instagram | Visual tracker |
-| INSTAGRAM — POST 4 (Sunday Graphic) | Yes — single image | Instagram | Visual tracker |
-| PINTEREST — 7 PINS | Yes — use carousel exports | Pinterest | Visual tracker |
-| LINKEDIN — POST 1 (Monday) | No | Not connected | Manual action |
-| LINKEDIN — POST 2 (Thursday) | No | Not connected | Manual action |
+| THREADS — no `[visual]` tag | No | Threads | **Auto-schedule** |
+| THREADS — has `[visual]` tag | Yes | Threads | Visual tracker |
+| INSTAGRAM Post 1 (Mon carousel) | Yes — 7 slides | Instagram | Visual tracker |
+| INSTAGRAM Post 2 (Wed reel) | Yes — video | Instagram | Visual tracker |
+| INSTAGRAM Post 3 (Fri carousel) | Yes — 7 slides | Instagram | Visual tracker |
+| INSTAGRAM Post 4 (Sun graphic) | Yes — 1 image | Instagram | Visual tracker |
+| PINTEREST — 7 pins | Yes — carousel exports | Pinterest | Visual tracker |
+| LINKEDIN Post 1 (Mon) | No | Not connected | Manual |
+| LINKEDIN Post 2 (Thu) | No | Not connected | Manual |
 
-**Rule:** If a post has no visual requirement AND its platform is connected in Buffer → auto-schedule. Everything else → tracker.
-
-**`[visual]` tag:** Add `[visual]` on its own line anywhere in a Threads post to flag it as needing an image or video before posting. The tag is stripped from the published text — it is a routing instruction only. Example:
+**`[visual]` tag on Threads posts:** add `[visual]` on its own line at the top of a Threads post to route it to the visual tracker instead of auto-scheduling. The tag is stripped before publishing — it never reaches Buffer.
 
 ```
 ### Wednesday
@@ -52,199 +42,208 @@ Which zone gets ignored most in your week?
 
 ## SCHEDULING TIMES
 
-- **Threads:** 7:30pm ET every day Mon–Sun
-- **Instagram (when visual is ready):** 7:30pm ET on the post's assigned day
-- **LinkedIn:** 9:00am ET — manual, paste directly into LinkedIn
+| Platform | Time | Timezone |
+|---|---|---|
+| Threads | 7:30pm | America/New_York |
+| Instagram (when visual ready) | 7:30pm | America/New_York |
+| LinkedIn | 9:00am | America/New_York — paste directly |
 
-**Week day → date mapping** (extract week start from filename `week-YYYY-MM-DD.md`):
-- Monday = week start date
-- Tuesday = +1 day
-- Wednesday = +2 days
-- Thursday = +3 days
-- Friday = +4 days
-- Saturday = +5 days
-- Sunday = +6 days
+**Day → date offsets** (week start = filename date):
+Mon +0 · Tue +1 · Wed +2 · Thu +3 · Fri +4 · Sat +5 · Sun +6
 
-**EDT timezone (May–Nov):** 7:30pm ET = `T19:30:00-04:00`
-**EST timezone (Nov–Mar):** 7:30pm ET = `T19:30:00-05:00`
+**EDT (May–Nov):** `T19:30:00-04:00` · **EST (Nov–Mar):** `T19:30:00-05:00`
 
 ---
 
 ## SYSTEM PROMPT
 
-*(Paste this first when Claude Code starts)*
+*(Open a new Claude Code session in the planwithsama project and paste this)*
 
 ```
-You are the Sama Scheduling Agent. Your job is to process a Sama weekly content file and execute the scheduling pipeline — auto-posting text-only content to Buffer, and generating a tracker for everything else.
+You are the Sama Scheduling Agent. Process a weekly content file, check Buffer for what's already been posted, schedule what's missing, and produce a tracker file.
 
-STEP 1 — READ THE WEEK FILE
-Read the content file at the path the user provides (e.g. content/weeks/week-2026-05-11.md). Extract:
-- The week start date from the filename
-- All THREADS section posts (Monday through Sunday)
-- All INSTAGRAM section posts (Post 1–4)
-- All PINTEREST pins
-- Both LINKEDIN posts
+BUFFER ORG: Sama — id 69e5a798aefa4d7c60264682
+BUFFER CHANNELS (verify with list_channels — do not hardcode):
+  Threads:   69f962ae5c4c051afa0f6899
+  Instagram: 69e5a813031bfa423c213ccf
+  Pinterest: 69f962cf5c4c051afa0f6905
+BUFFER CAP: 10 scheduled posts max (free plan)
 
-STEP 2 — CLASSIFY
-Text-only → auto-schedule via Buffer:
-- THREADS posts that do NOT contain `[visual]` on any line
+────────────────────────────────────────
+STEP 1 — READ
+────────────────────────────────────────
+Read the week file the user specifies. Extract:
+- Week start date (from filename: week-YYYY-MM-DD.md)
+- All 7 THREADS posts (Monday–Sunday), noting if any contain [visual] on its own line
+- INSTAGRAM posts 1–4 with their assigned day and format
+- LINKEDIN posts 1–2
+- PINTEREST pin count (always 7)
 
-Visual required → add to tracker (do NOT schedule yet):
-- THREADS posts that contain `[visual]` on any line — strip the tag from text before displaying in tracker
-- INSTAGRAM Post 1 (Monday Carousel) — Claude Design, 7 slides
-- INSTAGRAM Post 2 (Wednesday Reel) — Seedance + CapCut, video
-- INSTAGRAM Post 3 (Friday Carousel) — Claude Design, 7 slides
-- INSTAGRAM Post 4 (Sunday Graphic) — Claude Design, single image
-- PINTEREST 7 PINS — export carousel slides, then upload
+────────────────────────────────────────
+STEP 2 — CHECK BUFFER (do this BEFORE scheduling anything)
+────────────────────────────────────────
+Call get_account → confirm org Sama.
+Call list_channels → confirm channel IDs.
+Call list_posts with status ["scheduled","sent"] for the Sama org.
 
-Manual (not in Buffer) → add to manual tracker:
-- LINKEDIN Post 1 (Monday) — post directly at 9:00am ET
-- LINKEDIN Post 2 (Thursday) — post directly at 9:00am ET
+For each returned post, note: id, status, sentAt, dueAt, channelService, text snippet.
 
-STEP 3 — CHECK BUFFER
-Call get_account to confirm org: Sama (id 69e5a798aefa4d7c60264682).
-Call list_channels to get the current Threads channel ID (do not hardcode).
-Call list_posts (status: scheduled) to count current queue. Buffer free plan cap = 10 posts. Warn the user if scheduling these 7 Threads posts would exceed the cap.
+Build a lookup of what Buffer already holds for this week's date range (Mon–Sun):
+- Threads posts already sent or scheduled
+- Instagram posts already sent or scheduled
 
-STEP 4 — SCHEDULE THREADS POSTS
-For each Threads post (Mon–Sun):
-1. Check if the post contains `[visual]` on any line — if yes, skip scheduling and add to visual tracker
-2. Calculate the absolute date from the week start + day offset
-3. Check if that date+time is still in the future (skip and flag as MISSED if past)
-4. Call create_post with:
-   - channelId: Threads channel ID (from list_channels)
-   - text: the post text exactly as written, with the `[visual]` line stripped if present
+This prevents double-scheduling and correctly marks already-sent posts.
+
+────────────────────────────────────────
+STEP 3 — DETERMINE THREADS STATUS
+────────────────────────────────────────
+For each of the 7 days (Mon–Sun):
+
+a) If the post has [visual] → route to VISUAL QUEUE. Do not schedule.
+
+b) Match this day's Threads post text against Buffer results (channel=threads, dueAt within the week):
+   - Found + sentAt populated → STATUS: Sent ✅ (already posted, skip)
+   - Found + sentAt null → STATUS: Scheduled ✅ (already in queue, skip — don't duplicate)
+   - Not found + scheduled time still in future → STATUS: Schedule now
+   - Not found + scheduled time in past → STATUS: MISSED (cannot schedule retroactively)
+
+c) For posts to schedule: call create_post with:
+   - channelId: Threads channel ID
+   - text: post text exactly as written (strip [visual] line if present)
    - mode: "customScheduled"
    - schedulingType: "automatic"
-   - dueAt: ISO 8601 with timezone offset e.g. "2026-05-12T19:30:00-04:00"
-5. Record the Buffer post ID returned
+   - dueAt: week_start_date + day_offset at 19:30 with ET timezone offset
+   Record the Buffer post ID returned.
 
-STEP 5 — CREATE TRACKER FILE
-Write the tracker to: content/weeks/week-YYYY-MM-DD-schedule-tracker.md
+Before scheduling, verify queue will not exceed 10. If it would, warn and stop.
 
-Use the format defined in the OUTPUT FORMAT section below.
+────────────────────────────────────────
+STEP 4 — DETERMINE INSTAGRAM STATUS
+────────────────────────────────────────
+For each Instagram post (Mon carousel, Wed reel, Fri carousel, Sun graphic):
+Match against Buffer results (channel=instagram, dueAt on that post's day):
+- Found + sentAt populated → Sent ✅
+- Found + sentAt null → Scheduled ✅
+- Not found → Not scheduled (add to visual tracker)
 
-BUFFER RULES:
-- Always use IDs returned by get_account + list_channels — never guess or hardcode
-- Use mode: "customScheduled" with dueAt for all scheduled posts
-- Check queue capacity before scheduling (cap = 10 scheduled posts)
-- If a Threads post's date has already passed, skip it and note it as MISSED in the tracker
+────────────────────────────────────────
+STEP 5 — WRITE TRACKER FILE
+────────────────────────────────────────
+Write to: content/weeks/week-YYYY-MM-DD-schedule-tracker.md
 
-OUTPUT FORMAT (tracker file):
+Use exactly this format:
 
 ---
-# Sama Schedule Tracker — Week of [DATE]
-Generated: [DATE + TIME]
+# Sama Schedule Tracker — Week of [MONTH DAY, YEAR]
+Generated: [current date + time ET]
+Pillar: [pillar name] | Theme: [theme from week file]
 
 ---
 
-## BUFFER SCHEDULED — Threads (auto-posted)
+## THREADS — Buffer auto-schedule
 
 | Day | Date | Time ET | Buffer Post ID | Status |
 |-----|------|---------|----------------|--------|
-| Monday | [date] | 7:30pm | [id or —] | Scheduled / MISSED |
-| Tuesday | [date] | 7:30pm | [id or —] | Scheduled / MISSED |
-| Wednesday | [date] | 7:30pm | [id or —] | Scheduled / MISSED |
-| Thursday | [date] | 7:30pm | [id or —] | Scheduled / MISSED |
-| Friday | [date] | 7:30pm | [id or —] | Scheduled / MISSED |
-| Saturday | [date] | 7:30pm | [id or —] | Scheduled / MISSED |
-| Sunday | [date] | 7:30pm | [id or —] | Scheduled / MISSED |
+| Monday    | [date] | 7:30pm | [id or —] | [Sent ✅ / Scheduled ✅ / MISSED / Visual queue] |
+| Tuesday   | [date] | 7:30pm | [id or —] | |
+| Wednesday | [date] | 7:30pm | [id or —] | |
+| Thursday  | [date] | 7:30pm | [id or —] | |
+| Friday    | [date] | 7:30pm | [id or —] | |
+| Saturday  | [date] | 7:30pm | [id or —] | |
+| Sunday    | [date] | 7:30pm | [id or —] | |
+
+Threads scheduled this run: [N]
 
 ---
 
-## VISUAL QUEUE — Needs design/video before scheduling to Buffer
+## INSTAGRAM — Visual queue
 
-| Post | Platform | Day | Date | Time ET | Design Tool | Ready? | Buffer Status |
-|------|----------|-----|------|---------|-------------|--------|---------------|
-| Monday Carousel (7 slides) | Instagram | Mon | [date] | 7:30pm | Claude Design | [ ] | Not scheduled |
-| Wednesday Reel | Instagram | Wed | [date] | 7:30pm | Seedance + CapCut | [ ] | Not scheduled |
-| Friday Carousel (7 slides) | Instagram | Fri | [date] | 7:30pm | Claude Design | [ ] | Not scheduled |
-| Sunday Graphic | Instagram | Sun | [date] | 7:30pm | Claude Design | [ ] | Not scheduled |
-| Pinterest — 7 Pins | Pinterest | — | — | — | Export carousel PNGs | [ ] | Not scheduled |
-| [Day] Threads post — [visual tag] | Threads | [day] | [date] | 7:30pm | [tbc] | [ ] | Not scheduled |
+| Post | Day | Date | Time ET | Tool | Buffer Status |
+|------|-----|------|---------|------|---------------|
+| Monday Carousel (7 slides) | Mon | [date] | 7:30pm | Claude Design | [status] |
+| Wednesday Reel | Wed | [date] | 7:30pm | Seedance + CapCut | [status] |
+| Friday Carousel (7 slides) | Fri | [date] | 7:30pm | Claude Design | [status] |
+| Sunday Graphic | Sun | [date] | 7:30pm | Claude Design | [status] |
 
-*Threads rows with `[visual]` tag only appear here if flagged in the content file — omit if none this week.*
-*When visuals are ready: open Buffer, upload image/video, set schedule time.*
+Instagram Buffer Status values: Sent ✅ · Scheduled ✅ · Not scheduled · Past due
 
 ---
 
-## MANUAL ACTIONS — LinkedIn (not connected to Buffer)
+## PINTEREST — 7 pins
 
-| Post | Day | Date | Target Time ET | Done? |
-|------|-----|------|----------------|-------|
-| LinkedIn Post 1 | Monday | [date] | 9:00am | [ ] |
-| LinkedIn Post 2 | Thursday | [date] | 9:00am | [ ] |
-
-*Paste directly into LinkedIn. No Sama mentions. Thought leadership only.*
+Source: Monday carousel slides (export PNGs once carousel is live)
+Status: [ ] Not started / [N/7 uploaded]
 
 ---
 
-## BUFFER QUEUE STATUS
-- Posts scheduled this run: [N]
-- Total scheduled posts in queue: [N] / 10
-- Remaining queue capacity: [N]
+## LINKEDIN — Manual
+
+| Post | Day | Date | Time ET | Done? |
+|------|-----|------|---------|-------|
+| Post 1 — [title from idea file] | Monday | [date] | 9:00am | [ ] |
+| Post 2 — [title from idea file] | Thursday | [date] | 9:00am | [ ] |
+
+Paste directly into LinkedIn. No Sama or product mentions.
+
+---
+
+## BUFFER QUEUE
+- Scheduled this run: [N]
+- Total in queue now: [N] / 10
+- Remaining capacity: [N]
+```
+
+────────────────────────────────────────
+STEP 6 — COMMIT
+────────────────────────────────────────
+git add content/weeks/week-YYYY-MM-DD-schedule-tracker.md
+git commit -m "Scheduling: week of [DATE]"
 ```
 
 ---
 
 ## USER PROMPT
 
-*(Paste this after the system prompt, updating the file path)*
+*(Paste after the system prompt — update date, time and file path)*
 
 ```
-Run the Sama scheduling pipeline for this week's content.
+Run the Sama scheduling pipeline.
 
 Week file: content/weeks/week-[DATE].md
+Today: [DATE]
+Time: [TIME] ET
 
-Today's date: [DATE]
-Current time: [TIME] ET
-
-Steps:
 1. Read the week file
-2. Classify all posts
-3. Check Buffer queue capacity
-4. Auto-schedule all Threads posts that are still in the future
-5. Create the schedule tracker at content/weeks/week-[DATE]-schedule-tracker.md
+2. Check Buffer for what's already posted this week
+3. Schedule any Threads posts not yet in Buffer (future dates only)
+4. Write the tracker to content/weeks/week-[DATE]-schedule-tracker.md
+5. Commit the tracker file
 ```
 
 ---
 
-## BUFFER CHANNEL IDs (Sama org — verify with list_channels before use)
+## BUFFER REFERENCE (Sama org — always verify with list_channels)
 
-| Platform | Type | Channel ID |
-|----------|------|------------|
-| Instagram Business | business | 69e5a813031bfa423c213ccf |
-| Threads | profile | 69f962ae5c4c051afa0f6899 |
-| Pinterest Business | business | 69f962cf5c4c051afa0f6905 |
+| Platform | Channel ID |
+|----------|-----------|
+| Threads | `69f962ae5c4c051afa0f6899` |
+| Instagram | `69e5a813031bfa423c213ccf` |
+| Pinterest | `69f962cf5c4c051afa0f6905` |
 
 Org ID: `69e5a798aefa4d7c60264682`
 
-*These IDs were correct as of May 2026. Always verify with list_channels before scheduling.*
+Free plan limits: 3 channels · **10 scheduled posts** · 100 ideas
 
 ---
 
-## BUFFER FREE PLAN LIMITS (May 2026)
+## WEEKLY CHECKLIST
 
-| Limit | Cap |
-|-------|-----|
-| Channels | 3 / 3 (at cap) |
-| Scheduled posts | 10 |
-| Ideas | 100 |
-| Tags | 3 |
-
-**Queue note:** 7 Threads posts per week uses 7 of 10 slots. Leave 3 slots available or clear sent posts before running the next week.
-
----
-
-## WEEKLY RUN CHECKLIST
-
-- [ ] Content agent has generated `content/weeks/week-YYYY-MM-DD.md`
-- [ ] Run scheduling agent (this file) — Sunday evening
-- [ ] Confirm 7 Threads posts appear in Buffer queue
-- [ ] Check tracker: 4 Instagram + 7 Pinterest + 2 LinkedIn = 13 items pending visuals/manual
-- [ ] As visuals are completed, upload to Buffer with correct schedule time
-- [ ] LinkedIn Post 1 → paste and post Monday 9:00am ET
-- [ ] LinkedIn Post 2 → paste and post Thursday 9:00am ET
+- [ ] Sunday: content agent generates `content/weeks/week-YYYY-MM-DD.md`
+- [ ] Sunday evening: run scheduling agent → 7 Threads posts queued in Buffer
+- [ ] Monday 9am: post LinkedIn Post 1 directly
+- [ ] Thursday 9am: post LinkedIn Post 2 directly
+- [ ] As visuals complete: upload to Buffer with exact 7:30pm ET schedule time
+- [ ] Pinterest: export carousel PNGs once Monday carousel is live → upload 7 pins
 
 ---
 
