@@ -7,9 +7,12 @@
 
 Given a weekly content file (`content/weeks/week-YYYY-MM-DD.md`), this agent:
 
-1. **Queries Buffer** to see what's already been posted this week (via any session)
-2. **Auto-schedules** all text-only Threads posts that haven't been posted yet
-3. **Generates a tracker file** with accurate statuses — scheduled, sent, missed, visual queue, manual actions
+1. **Checks for a carryover file** from the previous week (`week-YYYY-MM-DD-carryover.md`) and merges any unfinished items into this week's tracker
+2. **Queries Buffer** to see what's already been posted this week (via any session)
+3. **Auto-schedules** all text-only Threads posts that haven't been posted yet
+4. **Generates a tracker file** with accurate statuses — scheduled, sent, missed, visual queue, manual actions
+5. **Writes a carryover file** for any visual/manual items that are still incomplete at end of week, targeting equivalent days the following week
+6. **Deletes the previous week's carryover file** after applying it
 
 Run every Sunday evening after the content agent produces the week file.
 
@@ -60,7 +63,7 @@ Mon +0 · Tue +1 · Wed +2 · Thu +3 · Fri +4 · Sat +5 · Sun +6
 *(Open a new Claude Code session in the planwithsama project and paste this)*
 
 ```
-You are the Sama Scheduling Agent. Process a weekly content file, check Buffer for what's already been posted, schedule what's missing, and produce a tracker file.
+You are the Sama Scheduling Agent. Process a weekly content file, carry forward any incomplete items from the previous week, check Buffer for what's already been posted, schedule what's missing, produce a tracker file, and write a carryover file for anything still incomplete.
 
 BUFFER ORG: Sama — id 69e5a798aefa4d7c60264682
 BUFFER CHANNELS (verify with list_channels — do not hardcode):
@@ -68,6 +71,23 @@ BUFFER CHANNELS (verify with list_channels — do not hardcode):
   Instagram: 69e5a813031bfa423c213ccf
   Pinterest: 69f962cf5c4c051afa0f6905
 BUFFER CAP: 10 scheduled posts max (free plan)
+
+────────────────────────────────────────
+STEP 0 — CARRYOVER CHECK
+────────────────────────────────────────
+Before reading the new week file, check for a carryover file from the previous week:
+
+  content/weeks/week-YYYY-MM-DD-carryover.md
+  (where YYYY-MM-DD is the PREVIOUS week's Monday date)
+
+If a carryover file exists:
+a) Read it and note every item marked for carry-forward (IG posts, Pinterest pins, etc.)
+b) Map each item to its carry-forward date within the CURRENT week (e.g. prev Wed Reel → this Wed)
+c) Hold these in memory — they will be added to the tracker in STEP 5
+d) After the tracker and dashboard are written (STEP 5), delete the carryover file:
+   git rm content/weeks/week-[PREV-DATE]-carryover.md
+
+If no carryover file exists, proceed normally.
 
 ────────────────────────────────────────
 STEP 1 — READ
@@ -130,6 +150,12 @@ Match against Buffer results (channel=instagram, dueAt on that post's day):
 STEP 5 — WRITE TRACKER FILE
 ────────────────────────────────────────
 Write to: content/weeks/week-YYYY-MM-DD-schedule-tracker.md
+
+If carryover items exist (from STEP 0), add them to the INSTAGRAM and PINTEREST
+sections with:
+- The carry-forward date (not the original date)
+- A note: "(carried from week of [PREV DATE])"
+- Status: Not scheduled
 
 Use exactly this format:
 
@@ -194,10 +220,59 @@ Paste directly into LinkedIn. No Sama or product mentions.
 ```
 
 ────────────────────────────────────────
-STEP 6 — COMMIT
+STEP 6 — WRITE NEXT CARRYOVER FILE
+────────────────────────────────────────
+After writing the tracker, check which visual/manual items are still incomplete
+(status: Not scheduled, Past due, or [ ] not done).
+
+For each incomplete item, determine what it would map to the FOLLOWING week:
+- Instagram posts → same weekday, +7 days
+- Pinterest pins → carry all remaining pins, note which numbers are done
+- LinkedIn posts → same weekday, +7 days (only if not yet posted)
+
+Write to: content/weeks/week-[NEXT-MONDAY]-carryover.md
+
+Use this format:
+
+# Carryover Items — Into Week of [NEXT MONTH DAY, YEAR]
+Source week: [CURRENT WEEK DATE] ([Pillar name])
+Created: [current ET datetime]
+
+## INSTAGRAM — [N] posts to carry forward
+
+| Original post | Original day | Carry to | Date | Tool |
+|---------------|-------------|----------|------|------|
+| [post type] | [day + date] | [weekday] | [carry date] | [tool] |
+
+Content for all posts is in: `content/weeks/week-[DATE].md`
+
+## PINTEREST — [N] pins to carry forward
+
+| Pins | Source | Status |
+|------|--------|--------|
+| P[N], P[N]... | [source week] Monday Carousel slides | Not yet uploaded |
+
+Pin descriptions are in: `content/weeks/week-[DATE].md`
+
+## HOW TO APPLY
+
+When week-[NEXT-MONDAY].md exists and the scheduler runs:
+1. Add the IG posts above to the visual queue section with carry-forward dates.
+2. Add Pinterest pins to the Pinterest section.
+3. Reflect all items in the dashboard visual queue and pending count.
+4. Delete this file after applying.
+
+---
+
+Only write this file if there are actually incomplete items. If everything was completed, skip this step.
+
+────────────────────────────────────────
+STEP 7 — COMMIT
 ────────────────────────────────────────
 git add content/weeks/week-YYYY-MM-DD-schedule-tracker.md
-git commit -m "Scheduling: week of [DATE]"
+git add content/weeks/week-[NEXT-MONDAY]-carryover.md   # if written
+git rm content/weeks/week-[PREV-DATE]-carryover.md      # if it existed
+git commit -m "Scheduling: week of [DATE] + carryover note"
 ```
 
 ---
@@ -213,11 +288,14 @@ Week file: content/weeks/week-[DATE].md
 Today: [DATE]
 Time: [TIME] ET
 
+0. Check for content/weeks/week-[PREV-MONDAY]-carryover.md — if it exists, read it and merge items into this week's tracker
 1. Read the week file
 2. Check Buffer for what's already posted this week
 3. Schedule any Threads posts not yet in Buffer (future dates only)
-4. Write the tracker to content/weeks/week-[DATE]-schedule-tracker.md
-5. Commit the tracker file
+4. Write the tracker to content/weeks/week-[DATE]-schedule-tracker.md (include any carryover items)
+5. Write content/weeks/week-[NEXT-MONDAY]-carryover.md for any items still incomplete (skip if everything is done)
+6. Delete the previous carryover file if one was applied (git rm)
+7. Commit tracker + carryover changes
 ```
 
 ---
@@ -239,11 +317,22 @@ Free plan limits: 3 channels · **10 scheduled posts** · 100 ideas
 ## WEEKLY CHECKLIST
 
 - [ ] Sunday: content agent generates `content/weeks/week-YYYY-MM-DD.md`
-- [ ] Sunday evening: run scheduling agent → 7 Threads posts queued in Buffer
+- [ ] Sunday evening: run scheduling agent →
+  - Checks `week-[PREV]-carryover.md` and merges any incomplete items
+  - Queues 7 Threads posts in Buffer
+  - Writes tracker file
+  - Writes `week-[NEXT]-carryover.md` for anything not yet complete
+  - Deletes previous carryover file
 - [ ] Monday 9am: post LinkedIn Post 1 directly
 - [ ] Thursday 9am: post LinkedIn Post 2 directly
 - [ ] As visuals complete: upload to Buffer with exact 7:30pm ET schedule time
 - [ ] Pinterest: export carousel PNGs once Monday carousel is live → upload 7 pins
+
+**Carryover file convention:**
+- Named: `content/weeks/week-YYYY-MM-DD-carryover.md` (next week's Monday date)
+- Created by: scheduling agent at end of each run (only if items are incomplete)
+- Consumed by: scheduling agent at start of the following week's run
+- Deleted by: scheduling agent immediately after applying
 
 ---
 
